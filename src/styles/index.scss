@@ -3,14 +3,19 @@
 @import './scrollbar';
 
 html, body {
-    user-select: none;
-    cursor: default;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    cursor:default;
 }
 
 h1, h2, h3, h4, h5 {
     @extend .text-white;
+    @extend .mb-2;
+
+}
+
+h2 {
+    font-size: 140%;
 }
 
 header {
@@ -18,4 +23,31 @@ header {
         width:85px;
         vertical-align: baseline;
     }
+}
+
+::selection {
+    background:lighten(#465162, 40%);
+    color:$white;
+}
+
+.customize-list-group {
+    @extend .list-group;
+    @extend .list-group-flush;
+}
+.customize-list-group-item {
+    @extend .list-group-item;
+    @extend .bg-transparent;
+    @extend .py-1;
+    @extend .px-0;
+    border-color:rgba(255,255,255,0.1);
+}
+
+.customize-code {
+    @extend .d-block;
+    @extend .p-2;
+    @extend .mb-2;
+    background: #38404e;
+    border:1px solid #465162;
+    color:#919bac;
+    cursor: text;
 }

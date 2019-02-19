@@ -1,0 +1,21 @@
+@import './bootstrap-variables';
+@import './bootstrap';
+@import './scrollbar';
+
+html, body {
+    user-select: none;
+    cursor: default;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+h1, h2, h3, h4, h5 {
+    @extend .text-white;
+}
+
+header {
+    .logo {
+        width:85px;
+        vertical-align: baseline;
+    }
+}

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "None",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "ES2016",
+      "DOM"
+    ],
+    "removeComments": true,
+    "noImplicitAny": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "typeRoots": [
+      "node_modules/@types",
+      "typings"
+    ],
+    "sourceMap": true
+  },
+  "parcelTsPluginOptions": {
+    "transpileOnly": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
+}

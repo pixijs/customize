@@ -16,7 +16,7 @@
     "prebuild": "run-s clean lint types",
     "build": "npm run build:prod",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist -b public"
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",

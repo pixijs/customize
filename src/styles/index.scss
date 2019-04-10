@@ -109,8 +109,8 @@ header {
         @extend .flex-grow-0;
     }
     .app-main {
+        @extend .pb-4;
         .app-col {
-            @extend .pb-4;
             height:100%;
             overflow-x: hidden;
             overflow-y: auto;

@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import logoUrl from './images/logo.svg';
+import downloadUrl from './images/download.svg';
 import bind from 'bind-decorator';
 import { HighLight } from 'preact-highlight';
 import { createBundleCode } from './CodeUtils';
@@ -101,10 +102,6 @@ export class Customize extends Component<any, State> {
                 <header class="mb-2">
                     <h1><img src={logoUrl} class="logo" alt="PixiJS" /> Customize</h1>
                 </header>
-                <p>Select packages to include in a custom version of PixiJS. This will
-                setup all the necessary plugin hooks for different packages. Visit the
-                <a href="https://github.com/pixijs/pixi.js"> GitHub</a> project for more
-                about PixiJS.</p>
             </div>
             <div class="app-main row">
                 <div class="app-col col-sm-4 col-md-3">
@@ -137,10 +134,20 @@ export class Customize extends Component<any, State> {
                     }) }
                 </div>
                 <div class="app-col col-sm-4 col-md-6">
-                    <h2>PIXI Export <small class="text-secondary float-right">pixi-custom.js</small></h2>
+                    <h2>Bundle Code
+                        <a download="pixi.js" href={`data:text/plain,${bundleCode}`}>
+                            <button class="btn btn-sm btn-primary px-3 float-right">
+                                <img src={downloadUrl} class="mr-2" width="20" height="20" />
+                                Download
+                            </button>
+                        </a>
+                    </h2>
+                    <p>When using <a href="https://webpack.js.org/">Webpack</a>,
+                    <a href="https://rollupjs.org"> Rollup</a> or
+                    <a href="https://parceljs.org/"> Parcel</a> you can embed
+                    the follow code in your project and then
+                    simply <code>import * as PIXI from './pixi.js'</code>.</p>
                     <HighLight className="customize-code" code={bundleCode} language="javascript" />
-                    <h2>PIXI Import<small class="text-secondary float-right">index.js</small></h2>
-                    <HighLight className="customize-code" code="import * as PIXI from './pixi-custom.js';" language="javascript" />
                 </div>
                 <div class="app-col col-sm-4 col-md-3">
                     <h2>Install</h2>

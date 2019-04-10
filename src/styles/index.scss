@@ -40,12 +40,8 @@ header {
     color:$white;
 }
 
-.exports {
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    @extend .d-block;
-    @extend .m-0;
-    font-size:100%;
+.customize-group + .customize-group  {
+    @extend .pt-3;
 }
 
 .customize-list-group {

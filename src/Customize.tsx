@@ -156,7 +156,7 @@ export class Customize extends Component<any, State> {
             <div class="app-main row">
                 <div class="app-col col-sm-4 col-md-3">
                     { packagesData.groups.map(group => {
-                        return <div>
+                        return <div class="customize-group">
                             <h2>{group.title}</h2>
                             <ul class="customize-list-group">
                                 { group.packages.map(name => packagesMap[name]).map(pkg => {

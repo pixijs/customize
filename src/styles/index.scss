@@ -2,10 +2,20 @@
 @import './bootstrap';
 @import './scrollbar';
 
+$sm: map-get($grid-breakpoints, "sm");
+
 html, body {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     cursor:default;
+    overflow: hidden;
+    position: absolute;
+    @extend .w-100;
+    @extend .h-100;
+    @media(max-width: $sm) {
+        position: static;
+        overflow: auto;
+    }
 }
 
 h1, h2, h3, h4, h5 {
@@ -30,6 +40,14 @@ header {
     color:$white;
 }
 
+.exports {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    @extend .d-block;
+    @extend .m-0;
+    font-size:100%;
+}
+
 .customize-list-group {
     @extend .list-group;
     @extend .list-group-flush;
@@ -39,7 +57,16 @@ header {
     @extend .bg-transparent;
     @extend .py-1;
     @extend .px-0;
-    border-color:rgba(255,255,255,0.1);
+    border-color:lighten($body-bg, 10%);
+    &.disabled .custom-control-label {
+        &:before {
+            background: darken($primary, 25%);
+            border-color: darken($primary, 25%);
+        }
+        &:after {
+            opacity:0.4;
+        }
+    }
 }
 
 .customize-code {
@@ -48,6 +75,38 @@ header {
     @extend .mb-2;
     background: #38404e;
     border:1px solid #465162;
-    color:#919bac;
+    &, & * {
+        color:#919bac;
+    }
     cursor: text;
+    line-height:1.6;
+    &.preformatted {
+        white-space: pre-wrap;
+    }
 }
+
+.app-container {
+    @extend .container-fluid;
+    @extend .d-flex;
+    @extend .flex-column;
+    max-width:1200px;
+    height:100%;
+    .app-header {
+        @extend .pt-4;
+        @extend .flex-shrink-0;
+        @extend .flex-grow-0;
+    }
+    .app-main {
+        .app-col {
+            @extend .pb-4;
+            height:100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            @media(max-width: $sm) {
+                height: auto;
+                overflow: none;
+            }
+        }
+    }
+}
+

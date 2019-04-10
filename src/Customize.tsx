@@ -1,20 +1,12 @@
 import { h, Component } from 'preact';
 import logoUrl from './images/logo.svg';
-import packagesData from './packages.json';
 import bind from 'bind-decorator';
-
-interface Package {
-    name:string;
-    required?:boolean;
-}
-interface PackageGroup {
-    packages:Package[];
-    title:string;
-}
+import { packagesData, packagesMap, defaultPackages, Package } from './PackagesData';
 
 interface State {
     packages:string[];
     useYarn:boolean;
+    bundleCode?:string;
 }
 
 /**
@@ -24,19 +16,10 @@ export class Customize extends Component<any, State> {
     constructor() {
         super();
 
-        // Get packages that are non-optional
-        const defaultPackages:string[] = [];
-        packagesData.forEach((group:PackageGroup) => {
-            group.packages
-            .filter((pkg:Package) => pkg.required)
-            .forEach((pkg:Package) => {
-                defaultPackages.push(pkg.name);
-            });
-        });
-
         const state:State = {
             packages: defaultPackages,
-            useYarn: !!localStorage.getItem('useYarn')
+            useYarn: !!localStorage.getItem('useYarn'),
+            bundleCode: ''
         };
 
         // Check for saved packages
@@ -44,7 +27,7 @@ export class Customize extends Component<any, State> {
         if (savedPackages) {
             state.packages = JSON.parse(savedPackages);
         }
-
+        state.bundleCode = this.generateBundleCode(state.packages);
         this.state = state;
     }
 
@@ -62,7 +45,7 @@ export class Customize extends Component<any, State> {
             packages.splice(packages.indexOf(name), 1);
         }
         localStorage.setItem('packages', JSON.stringify(packages));
-        this.setState({ packages });
+        this.setState({ packages, bundleCode: this.generateBundleCode(packages) });
     }
 
     /**
@@ -78,22 +61,105 @@ export class Customize extends Component<any, State> {
         this.setState({ useYarn });
     }
 
-    render(props:any, { packages, useYarn }:State) {
-        return (<div class="container py-4">
-            <header class="mb-2">
-                <h1><img src={logoUrl} class="logo" alt="PixiJS" /> Customize</h1>
-            </header>
-            <p>Select packages to include in a custom version of PixiJS. This will
-            setup all the necessary plugin hooks for different packages. Visit the
-            <a href="https://github.com/pixijs/pixi.js"> GitHub</a> project for more
-            about PixiJS.</p>
-            <div class="row">
-                <div class="col-sm-4 col-md-3">
-                    { packagesData.map((group:PackageGroup) => {
-                        return <div class="mb-4">
+    /**
+     * Get header code
+     */
+    private getCode({ name, namespace, code }:Package) {
+        if (code) {
+            return code.map(line => line.replace('${name}', name));
+        }
+        return namespace ? [
+                `import * as ${namespace} from '${name}'`,
+                `export { ${namespace} }`
+            ] :
+            [`export * from '${name}'`];
+    }
+
+    /**
+     * Generate code for renderer plugins
+     */
+    private rendererPlugin({name, rendererPlugin, namespace}:Package) {
+        const [apiName, className] = rendererPlugin;
+        if (namespace) {
+            return [
+                `Renderer.registerPlugin('${apiName}', ${namespace}.${className})`
+            ];
+        }
+        else {
+            return [
+                `import { ${className} } from '${name}'`,
+                `Renderer.registerPlugin('${apiName}', ${className})`
+            ];
+        }
+    }
+
+    /**
+     * Generate the ES6 code
+     */
+    private generateBundleCode(packages:string[]) {
+        const lines:string[] = [];
+
+        const loaderPlugins = packagesData.packages.filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugin);
+        const appPlugins = packagesData.packages.filter(pkg => packages.includes(pkg.name) && !!pkg.appPlugin);
+
+        packagesData.order
+            .filter(name => packages.includes(name))
+            .map(name => packagesMap[name])
+            .forEach(pkg => lines.push.apply(lines, this.getCode(pkg)));
+
+        lines.push('', '// Renderer plugins');
+        lines.push('import { Renderer } from \'@pixi/core\'');
+
+        packagesData.packages
+            .filter(pkg => packages.includes(pkg.name) && !!pkg.rendererPlugin)
+            .forEach(pkg => lines.push.apply(lines, this.rendererPlugin(pkg)));
+
+        if (packages.includes('@pixi/app') && appPlugins.length) {
+            lines.push('', '// Application plugins');
+            appPlugins.forEach(pkg => lines.push.apply(lines, this.appPlugin(pkg)));
+        }
+
+        if (packages.includes('@pixi/loaders') && loaderPlugins.length) {
+            lines.push('', '// Loader plugins');
+            loaderPlugins.forEach(pkg => lines.push.apply(lines, this.loaderPlugin(pkg)));
+        }
+        return lines
+            .map(line => line && !line.startsWith('//') ? `${line};` : line)
+            .join('\n');
+    }
+
+    /**
+     * Generate code for application plugins
+     */
+    private appPlugin({name, appPlugin}:Package) {
+        return [`Application.registerPlugin(${appPlugin})`];
+    }
+
+    /**
+     * Generate code for loader plugins
+     */
+    private loaderPlugin({name, loaderPlugin}:Package) {
+        return [`Loader.registerPlugin(${loaderPlugin})`];
+    }
+
+    render(props:any, { packages, useYarn, bundleCode }:State) {
+        return (<div class="app-container">
+            <div class="app-header">
+                <header class="mb-2">
+                    <h1><img src={logoUrl} class="logo" alt="PixiJS" /> Customize</h1>
+                </header>
+                <p>Select packages to include in a custom version of PixiJS. This will
+                setup all the necessary plugin hooks for different packages. Visit the
+                <a href="https://github.com/pixijs/pixi.js"> GitHub</a> project for more
+                about PixiJS.</p>
+            </div>
+            <div class="app-main row">
+                <div class="app-col col-sm-4 col-md-3">
+                    { packagesData.groups.map(group => {
+                        return <div>
                             <h2>{group.title}</h2>
                             <ul class="customize-list-group">
-                                { group.packages.map((pkg:Package) => {
+                                { group.packages.map(name => packagesMap[name]).map(pkg => {
                                     return <li class={`customize-list-group-item ${pkg.required ? 'disabled' : ''}`}>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox"
@@ -110,17 +176,15 @@ export class Customize extends Component<any, State> {
                         </div>;
                     }) }
                 </div>
-                <div class="col-sm-4 col-md-6">
+                <div class="app-col col-sm-4 col-md-6">
                     <h2>PIXI Export <small class="text-secondary float-right">pixi-custom.js</small></h2>
-                    <code class="customize-code mb-4">
-                        { packages.map(name => <span>{`export * from '${name}';`}<br /></span>) }
-                    </code>
+                    <code class="customize-code preformatted mb-4">{bundleCode}</code>
                     <h2>PIXI Import<small class="text-secondary float-right">index.js</small></h2>
                     <code class="customize-code">
                         import * as PIXI from './pixi-custom.js';
                     </code>
                 </div>
-                <div class="col-sm-4 col-md-3">
+                <div class="app-col col-sm-4 col-md-3">
                     <h2>Install</h2>
                     <div class="btn-group w-100 mb-2">
                         <button class={`btn btn-sm btn-${!useYarn ? 'primary' : 'outline-secondary'}`} onClick={this.onYarn.bind(this, false)}>npm</button>
@@ -132,5 +196,11 @@ export class Customize extends Component<any, State> {
                 </div>
             </div>
         </div>);
+    }
+}
+
+class Code extends Component<any, any> {
+    render(props:any) {
+        return <span class="exports">{props.children}</span>;
     }
 }

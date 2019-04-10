@@ -1,144 +1,277 @@
-[
-    {
-        "title": "Core",
-        "packages": [
-            {
-                "name": "@pixi/core",
-                "required": true
-            },
-            {
-                "name": "@pixi/accessibility"
-            },
-            {
-                "name": "@pixi/app"
-            },
-            {
-                "name": "@pixi/constants"
-            },
-            {
-                "name": "@pixi/display"
-            },
-            {
-                "name": "@pixi/extract"
-            },
-            {
-                "name": "@pixi/graphics"
-            },
-            {
-                "name": "@pixi/interaction"
-            },
-            {
-                "name": "@pixi/loaders"
-            },
-            {
-                "name": "@pixi/math"
-            },
-            {
-                "name": "@pixi/mesh"
-            },
-            {
-                "name": "@pixi/mesh-extras"
-            },
-            {
-                "name": "@pixi/mixin-cache-as-bitmap"
-            },
-            {
-                "name": "@pixi/mixin-get-child-by-name"
-            },
-            {
-                "name": "@pixi/mixin-get-global-position"
-            },
-            {
-                "name": "@pixi/particles"
-            },
-            {
-                "name": "@pixi/polyfill"
-            },
-            {
-                "name": "@pixi/prepare"
-            },
-            {
-                "name": "@pixi/settings"
-            },
-            {
-                "name": "@pixi/sprite"
-            },
-            {
-                "name": "@pixi/sprite-animated"
-            },
-            {
-                "name": "@pixi/sprite-tiling"
-            },
-            {
-                "name": "@pixi/spritesheet"
-            },
-            {
-                "name": "@pixi/text"
-            },
-            {
-                "name": "@pixi/text-bitmap"
-            },
-            {
-                "name": "@pixi/ticker"
-            },
-            {
-                "name": "@pixi/utils"
-            }
-        ]
-    },
-    {
-        "title": "Filters",
-        "packages": [
-            {
-                "name": "@pixi/filter-alpha"
-            },
-            {
-                "name": "@pixi/filter-blur"
-            },
-            {
-                "name": "@pixi/filter-color-matrix"
-            },
-            {
-                "name": "@pixi/filter-displacement"
-            },
-            {
-                "name": "@pixi/filter-fxaa"
-            },
-            {
-                "name": "@pixi/filter-noise"
-            }
-        ]
-    },
-    {
-        "title": "Canvas",
-        "packages": [
-            {
-                "name": "@pixi/canvas-display"
-            },
-            {
-                "name": "@pixi/canvas-extract"
-            },
-            {
-                "name": "@pixi/canvas-graphics"
-            },
-            {
-                "name": "@pixi/canvas-mesh"
-            },
-            {
-                "name": "@pixi/canvas-particles"
-            },
-            {
-                "name": "@pixi/canvas-prepare"
-            },
-            {
-                "name": "@pixi/canvas-renderer"
-            },
-            {
-                "name": "@pixi/canvas-sprite"
-            },
-            {
-                "name": "@pixi/canvas-sprite-tiling"
-            }
-        ]
-    }
-]
+{
+    "packages": [
+        {
+            "name": "@pixi/accessibility",
+            "namespace": "accessibility",
+            "rendererPlugin": ["accessibility", "AccessibilityManager"]
+        },
+        {
+            "name": "@pixi/app"
+        },
+        {
+            "name": "@pixi/constants",
+            "required": true
+        },
+        {
+            "name": "@pixi/core",
+            "required": true,
+            "rendererPlugin": ["batch", "BatchRenderer"]
+        },
+        {
+            "name": "@pixi/display",
+            "required": true
+        },
+        {
+            "name": "@pixi/extract",
+            "namespace": "extract",
+            "rendererPlugin": ["extract", "Extract"]
+        },
+        {
+            "name": "@pixi/graphics"
+        },
+        {
+            "name": "@pixi/interaction",
+            "namespace": "interaction",
+            "rendererPlugin": ["interaction", "InteractionManager"]
+        },
+        {
+            "name": "@pixi/loaders",
+            "appPlugin": "AppLoaderPlugin"
+        },
+        {
+            "name": "@pixi/math",
+            "required": true
+        },
+        {
+            "name": "@pixi/mesh"
+        },
+        {
+            "name": "@pixi/mesh-extras"
+        },
+        {
+            "name": "@pixi/mixin-cache-as-bitmap",
+            "code": [ "import '${name}'" ]
+        },
+        {
+            "name": "@pixi/mixin-get-child-by-name",
+            "code": [ "import '${name}'" ]
+        },
+        {
+            "name": "@pixi/mixin-get-global-position",
+            "code": [ "import '${name}'" ]
+        },
+        {
+            "name": "@pixi/particles",
+            "rendererPlugin": ["particle", "ParticleRenderer"]
+        },
+        {
+            "name": "@pixi/polyfill",
+            "code": [ "import '@pixi/polyfill'" ]
+        },
+        {
+            "name": "@pixi/prepare",
+            "namespace": "prepare",
+            "rendererPlugin": ["prepare", "Prepare"]
+        },
+        {
+            "name": "@pixi/settings",
+            "required": true
+        },
+        {
+            "name": "@pixi/sprite"
+        },
+        {
+            "name": "@pixi/sprite-animated"
+        },
+        {
+            "name": "@pixi/sprite-tiling",
+            "rendererPlugin": ["tilingSprite", "TilingSpriteRenderer"]
+        },
+        {
+            "name": "@pixi/spritesheet",
+            "loaderPlugin": "SpritesheetLoader"
+        },
+        {
+            "name": "@pixi/text"
+        },
+        {
+            "name": "@pixi/text-bitmap",
+            "loaderPlugin": "BitmapFontLoader"
+        },
+        {
+            "name": "@pixi/ticker",
+            "required": true,
+            "appPlugin": "TickerPlugin"
+        },
+        {
+            "name": "@pixi/unsafe-eval",
+            "code": [
+                "import * as PIXI from '@pixi/core'",
+                "import { install } from '${name}'",
+                "install(PIXI)"
+            ]
+        },
+        {
+            "name": "@pixi/utils",
+            "namespace": "utils",
+            "required": true
+        },
+        {
+            "name": "@pixi/filter-alpha",
+            "filter": true
+        },
+        {
+            "name": "@pixi/filter-blur",
+            "filter": true
+        },
+        {
+            "name": "@pixi/filter-color-matrix",
+            "filter": true
+        },
+        {
+            "name": "@pixi/filter-displacement",
+            "filter": true
+        },
+        {
+            "name": "@pixi/filter-fxaa",
+            "filter": true
+        },
+        {
+            "name": "@pixi/filter-noise",
+            "filter": true
+        },
+        {
+            "name": "@pixi/canvas-display"
+        },
+        {
+            "name": "@pixi/canvas-extract"
+        },
+        {
+            "name": "@pixi/canvas-graphics"
+        },
+        {
+            "name": "@pixi/canvas-mesh"
+        },
+        {
+            "name": "@pixi/canvas-particles"
+        },
+        {
+            "name": "@pixi/canvas-prepare"
+        },
+        {
+            "name": "@pixi/canvas-renderer"
+        },
+        {
+            "name": "@pixi/canvas-sprite"
+        },
+        {
+            "name": "@pixi/canvas-sprite-tiling"
+        }
+    ],
+    "order": [
+        "@pixi/polyfill",
+        "@pixi/constants",
+        "@pixi/math",
+        "@pixi/runner",
+        "@pixi/settings",
+        "@pixi/unsafe-eval",
+        "@pixi/ticker",
+        "@pixi/utils",
+        "@pixi/display",
+        "@pixi/core",
+        "@pixi/mixin-get-child-by-name",
+        "@pixi/mixin-get-global-position",
+        "@pixi/canvas-display",
+        "@pixi/extract",
+        "@pixi/loaders",
+        "@pixi/mesh",
+        "@pixi/particles",
+        "@pixi/sprite",
+        "@pixi/canvas-extract",
+        "@pixi/canvas-renderer",
+        "@pixi/filter-alpha",
+        "@pixi/filter-blur",
+        "@pixi/filter-color-matrix",
+        "@pixi/filter-displacement",
+        "@pixi/filter-fxaa",
+        "@pixi/filter-noise",
+        "@pixi/accessibility",
+        "@pixi/app",
+        "@pixi/graphics",
+        "@pixi/mesh-extras",
+        "@pixi/mixin-cache-as-bitmap",
+        "@pixi/sprite-animated",
+        "@pixi/sprite-tiling",
+        "@pixi/spritesheet",
+        "@pixi/canvas-particles",
+        "@pixi/canvas-sprite",
+        "@pixi/text-bitmap",
+        "@pixi/text",
+        "@pixi/canvas-graphics",
+        "@pixi/canvas-mesh",
+        "@pixi/canvas-sprite-tiling",
+        "@pixi/interaction",
+        "@pixi/prepare",
+        "@pixi/canvas-prepare"
+    ],
+    "groups": [
+        {
+            "title": "Core",
+            "packages": [
+                "@pixi/accessibility",
+                "@pixi/app",
+                "@pixi/constants",
+                "@pixi/core",
+                "@pixi/display",
+                "@pixi/extract",
+                "@pixi/graphics",
+                "@pixi/interaction",
+                "@pixi/loaders",
+                "@pixi/math",
+                "@pixi/mesh",
+                "@pixi/mesh-extras",
+                "@pixi/mixin-cache-as-bitmap",
+                "@pixi/mixin-get-child-by-name",
+                "@pixi/mixin-get-global-position",
+                "@pixi/particles",
+                "@pixi/polyfill",
+                "@pixi/prepare",
+                "@pixi/settings",
+                "@pixi/sprite",
+                "@pixi/sprite-animated",
+                "@pixi/sprite-tiling",
+                "@pixi/spritesheet",
+                "@pixi/text",
+                "@pixi/text-bitmap",
+                "@pixi/ticker",
+                "@pixi/unsafe-eval",
+                "@pixi/utils"
+            ]
+        },
+        {
+            "title": "Filters",
+            "packages": [
+                "@pixi/filter-alpha",
+                "@pixi/filter-blur",
+                "@pixi/filter-color-matrix",
+                "@pixi/filter-displacement",
+                "@pixi/filter-fxaa",
+                "@pixi/filter-noise"
+            ]
+        },
+        {
+            "title": "Canvas",
+            "packages": [
+                "@pixi/canvas-display",
+                "@pixi/canvas-extract",
+                "@pixi/canvas-graphics",
+                "@pixi/canvas-mesh",
+                "@pixi/canvas-particles",
+                "@pixi/canvas-prepare",
+                "@pixi/canvas-renderer",
+                "@pixi/canvas-sprite",
+                "@pixi/canvas-sprite-tiling"
+            ]
+        }
+    ]
+}

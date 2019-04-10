@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import logoUrl from './images/logo.svg';
 import bind from 'bind-decorator';
+import { createBundleCode } from './CodeUtils';
 import { packagesData, packagesMap, defaultPackages, Package } from './PackagesData';
 
 interface State {
@@ -27,7 +28,7 @@ export class Customize extends Component<any, State> {
         if (savedPackages) {
             state.packages = JSON.parse(savedPackages);
         }
-        state.bundleCode = this.generateBundleCode(state.packages);
+        state.bundleCode = createBundleCode(state.packages);
         this.state = state;
     }
 
@@ -45,7 +46,7 @@ export class Customize extends Component<any, State> {
             packages.splice(packages.indexOf(name), 1);
         }
         localStorage.setItem('packages', JSON.stringify(packages));
-        this.setState({ packages, bundleCode: this.generateBundleCode(packages) });
+        this.setState({ packages, bundleCode: createBundleCode(packages) });
     }
 
     /**
@@ -59,87 +60,6 @@ export class Customize extends Component<any, State> {
             localStorage.removeItem('useYarn');
         }
         this.setState({ useYarn });
-    }
-
-    /**
-     * Get header code
-     */
-    private getCode({ name, namespace, code }:Package) {
-        if (code) {
-            return code.map(line => line.replace('${name}', name));
-        }
-        return namespace ? [
-                `import * as ${namespace} from '${name}'`,
-                `export { ${namespace} }`
-            ] :
-            [`export * from '${name}'`];
-    }
-
-    /**
-     * Generate code for renderer plugins
-     */
-    private rendererPlugin({name, rendererPlugin, namespace}:Package) {
-        const [apiName, className] = rendererPlugin;
-        if (namespace) {
-            return [
-                `Renderer.registerPlugin('${apiName}', ${namespace}.${className})`
-            ];
-        }
-        else {
-            return [
-                `import { ${className} } from '${name}'`,
-                `Renderer.registerPlugin('${apiName}', ${className})`
-            ];
-        }
-    }
-
-    /**
-     * Generate the ES6 code
-     */
-    private generateBundleCode(packages:string[]) {
-        const lines:string[] = [];
-
-        const loaderPlugins = packagesData.packages.filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugin);
-        const appPlugins = packagesData.packages.filter(pkg => packages.includes(pkg.name) && !!pkg.appPlugin);
-
-        packagesData.order
-            .filter(name => packages.includes(name))
-            .map(name => packagesMap[name])
-            .forEach(pkg => lines.push.apply(lines, this.getCode(pkg)));
-
-        lines.push('', '// Renderer plugins');
-        lines.push('import { Renderer } from \'@pixi/core\'');
-
-        packagesData.packages
-            .filter(pkg => packages.includes(pkg.name) && !!pkg.rendererPlugin)
-            .forEach(pkg => lines.push.apply(lines, this.rendererPlugin(pkg)));
-
-        if (packages.includes('@pixi/app') && appPlugins.length) {
-            lines.push('', '// Application plugins');
-            appPlugins.forEach(pkg => lines.push.apply(lines, this.appPlugin(pkg)));
-        }
-
-        if (packages.includes('@pixi/loaders') && loaderPlugins.length) {
-            lines.push('', '// Loader plugins');
-            loaderPlugins.forEach(pkg => lines.push.apply(lines, this.loaderPlugin(pkg)));
-        }
-        return lines
-            .map(line => line && !line.startsWith('//') ? `${line};` : line)
-            .join('\n');
-    }
-
-    /**
-     * Generate code for application plugins
-     */
-    private appPlugin({name, appPlugin}:Package) {
-        return [`Application.registerPlugin(${appPlugin})`];
-    }
-
-    /**
-     * Generate code for loader plugins
-     */
-    private loaderPlugin({name, loaderPlugin}:Package) {
-        return [`Loader.registerPlugin(${loaderPlugin})`];
     }
 
     render(props:any, { packages, useYarn, bundleCode }:State) {

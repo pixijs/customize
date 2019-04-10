@@ -3,7 +3,8 @@
         {
             "name": "@pixi/accessibility",
             "namespace": "accessibility",
-            "rendererPlugin": ["accessibility", "AccessibilityManager"]
+            "rendererPlugin": ["accessibility", "AccessibilityManager"],
+            "canvasPlugin": ["accessibility", "AccessibilityManager"]
         },
         {
             "name": "@pixi/app"
@@ -50,15 +51,15 @@
         },
         {
             "name": "@pixi/mixin-cache-as-bitmap",
-            "code": [ "import '${name}'" ]
+            "importOnly": true
         },
         {
             "name": "@pixi/mixin-get-child-by-name",
-            "code": [ "import '${name}'" ]
+            "importOnly": true
         },
         {
             "name": "@pixi/mixin-get-global-position",
-            "code": [ "import '${name}'" ]
+            "importOnly": true
         },
         {
             "name": "@pixi/particles",
@@ -66,7 +67,7 @@
         },
         {
             "name": "@pixi/polyfill",
-            "code": [ "import '@pixi/polyfill'" ]
+            "importOnly": true
         },
         {
             "name": "@pixi/prepare",
@@ -118,54 +119,64 @@
         },
         {
             "name": "@pixi/filter-alpha",
-            "filter": true
+            "filter": ["AlphaFilter"]
         },
         {
             "name": "@pixi/filter-blur",
-            "filter": true
+            "filter": ["BlurFilter", "BlurFilterPass"]
         },
         {
             "name": "@pixi/filter-color-matrix",
-            "filter": true
+            "filter": ["ColorMatrixFilter"]
         },
         {
             "name": "@pixi/filter-displacement",
-            "filter": true
+            "filter": ["DisplacementFilter"]
         },
         {
             "name": "@pixi/filter-fxaa",
-            "filter": true
+            "filter": ["FXAAFilter"]
         },
         {
             "name": "@pixi/filter-noise",
-            "filter": true
+            "filter": ["NoiseFilter"]
         },
         {
-            "name": "@pixi/canvas-display"
+            "name": "@pixi/canvas-display",
+            "importOnly": true
         },
         {
-            "name": "@pixi/canvas-extract"
+            "name": "@pixi/canvas-extract",
+            "namespace": "canvasExtract",
+            "canvasPlugin": ["extract", "CanvasExtract"]
         },
         {
-            "name": "@pixi/canvas-graphics"
+            "name": "@pixi/canvas-graphics",
+            "canvasPlugin": ["graphics", "CanvasGraphicsRenderer"]
         },
         {
-            "name": "@pixi/canvas-mesh"
+            "name": "@pixi/canvas-mesh",
+            "canvasPlugin": ["mesh", "CanvasMeshRenderer"]
         },
         {
-            "name": "@pixi/canvas-particles"
+            "name": "@pixi/canvas-particles",
+            "importOnly": true
         },
         {
-            "name": "@pixi/canvas-prepare"
+            "name": "@pixi/canvas-prepare",
+            "namespace": "canvasPrepare",
+            "canvasPlugin": ["prepare", "CanvasPrepare"]
         },
         {
             "name": "@pixi/canvas-renderer"
         },
         {
-            "name": "@pixi/canvas-sprite"
+            "name": "@pixi/canvas-sprite",
+            "canvasPlugin": ["prepare", "CanvasSpriteRenderer"]
         },
         {
-            "name": "@pixi/canvas-sprite-tiling"
+            "name": "@pixi/canvas-sprite-tiling",
+            "importOnly": true
         }
     ],
     "order": [

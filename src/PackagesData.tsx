@@ -5,10 +5,12 @@ export interface Package {
     code?:string[];
     required?:boolean;
     rendererPlugin?:[string, string];
+    canvasPlugin?:[string, string];
     appPlugin?:string;
     loaderPlugin?:string;
     namespace?:string;
-    filter?:boolean;
+    filter?:string[];
+    importOnly?:boolean;
 }
 export interface PackageGroup {
     packages:string[];

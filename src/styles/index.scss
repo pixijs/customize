@@ -47,13 +47,29 @@ header {
 .customize-list-group {
     @extend .list-group;
     @extend .list-group-flush;
+    user-select: none;
 }
 .customize-list-group-item {
     @extend .list-group-item;
-    @extend .bg-transparent;
-    @extend .py-1;
-    @extend .px-0;
+    @extend .py-0;
+    @extend .px-1;
+    cursor:pointer;
     border-color:lighten($body-bg, 10%);
+    &:hover {
+        background: lighten($body-bg, 10%);
+    }
+    &, &.disabled {
+        background: $body-bg;
+    }
+    & * {
+        cursor:pointer;
+    }
+    .custom-control {
+        @extend .py-1;
+    }
+    .custom-control-label {
+        @extend .d-block;
+    }
     &.disabled .custom-control-label {
         &:before {
             background: darken($primary, 25%);

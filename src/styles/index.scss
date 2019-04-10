@@ -90,10 +90,18 @@ header {
     &, & * {
         color:#919bac;
     }
+    & + h2 {
+        @extend .pt-4;
+    }
     cursor: text;
     line-height:1.6;
-    &.preformatted {
+    pre {
+        @extend .m-0;
         white-space: pre-wrap;
+    }
+    .hljs {
+        background: transparent !important;
+        padding: 0 !important;
     }
 }
 

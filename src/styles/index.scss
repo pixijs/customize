@@ -84,16 +84,23 @@ header {
 .customize-code {
     @extend .d-block;
     @extend .p-2;
-    @extend .mb-2;
     background: #38404e;
     border:1px solid #465162;
     &, & * {
         color:#919bac;
     }
+    & + h2 {
+        @extend .pt-4;
+    }
     cursor: text;
     line-height:1.6;
-    &.preformatted {
+    pre {
+        @extend .m-0;
         white-space: pre-wrap;
+    }
+    .hljs {
+        background: transparent !important;
+        padding: 0 !important;
     }
 }
 
@@ -104,7 +111,7 @@ header {
     max-width:1200px;
     height:100%;
     .app-header {
-        @extend .pt-4;
+        @extend .pt-2;
         @extend .flex-shrink-0;
         @extend .flex-grow-0;
     }
@@ -116,7 +123,24 @@ header {
             overflow-y: auto;
             @media(max-width: $sm) {
                 height: auto;
-                overflow: none;
+                overflow: inherit;
+            }
+        }
+
+        .app-col-main {
+            @extend .d-flex;
+            @extend .flex-column;
+            height:100%;
+            overflow: hidden;
+            @media(max-width: $sm) {
+                height: auto;
+                overflow: inherit;
+                padding-top:1rem;
+                padding-bottom:1rem;
+            }
+            .customize-code {
+                @extend .flex-grow-1;
+                overflow-y: auto;
             }
         }
     }

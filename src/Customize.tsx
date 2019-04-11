@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import logoUrl from './images/logo.svg';
 import downloadUrl from './images/download.svg';
+import externalLinkUrl from './images/external-link.svg';
 import bind from 'bind-decorator';
 import { HighLight } from 'preact-highlight';
 import { createBundleCode, createHTMLCode } from './CodeUtils';
@@ -207,12 +208,31 @@ export class Customize extends Component<any, State> {
                 { !useBundler && <div class="app-col app-col-main col-sm-8 col-md-9">
                     <h2>Browser Code</h2>
                     <HighLight className="customize-code mb-2" code={htmlCode} language="html" />
-                    <a download="pixi.html" href={`data:text/plain,${htmlCode}`}>
-                        <button class="btn btn-primary btn-block float-right">
-                            <img src={downloadUrl} class="mr-2" width="20" height="20" />
-                            Download
-                        </button>
-                    </a>
+                    <div class="d-flex">
+                        <a class="w-100" download="pixi.html" href={`data:text/plain,${htmlCode}`}>
+                            <button class="btn btn-primary btn-block float-right">
+                                <img src={downloadUrl} class="mr-2" width="20" height="20" />
+                                Download
+                            </button>
+                        </a>
+                        {/*https://docs.jsfiddle.net/api/display-a-fiddle-from-post*/}
+                        <form class="w-100" method="post" action="https://jsfiddle.net/api/post/library/pure/" target="_blank">
+                            <input type="hidden" name="html" value={htmlCode} />
+                            <input type="hidden" name="title" value="PixiJS Customize" />
+                            <button class="btn btn-primary btn-block float-right">
+                                <img src={externalLinkUrl} class="mr-2" width="20" height="20" />
+                                JSFiddle
+                            </button>
+                        </form>
+                        {/*https://blog.codepen.io/documentation/api/prefill/*/}
+                        <form class="w-100" method="post" action="https://codepen.io/pen/define" target="_blank">
+                            <input type="hidden" name="data" value={JSON.stringify({title: 'PixiJS Customize', html: htmlCode})} />
+                            <button class="btn btn-primary btn-block float-right">
+                                <img src={externalLinkUrl} class="mr-2" width="20" height="20" />
+                                CodePen
+                            </button>
+                        </form>
+                    </div>
                 </div> }
             </div>
         </div>);

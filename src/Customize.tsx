@@ -54,7 +54,6 @@ export class Customize extends Component<any, State> {
     }
 
     private onToggleGroup(group:PackageGroup, event:Event) {
-        console.log('toggle group', group);
         const {checked} = event.currentTarget as HTMLInputElement;
         const {packages} = this.state;
         if (checked) {

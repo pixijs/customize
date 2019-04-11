@@ -1,5 +1,5 @@
 import {Package, packagesData, packagesMap} from './PackagesData';
-    
+
 /**
  * Get header code
  */

@@ -84,7 +84,6 @@ header {
 .customize-code {
     @extend .d-block;
     @extend .p-2;
-    @extend .mb-2;
     background: #38404e;
     border:1px solid #465162;
     &, & * {
@@ -112,19 +111,36 @@ header {
     max-width:1200px;
     height:100%;
     .app-header {
-        @extend .pt-4;
+        @extend .pt-2;
         @extend .flex-shrink-0;
         @extend .flex-grow-0;
     }
     .app-main {
+        @extend .pb-3;
         .app-col {
-            @extend .pb-4;
             height:100%;
             overflow-x: hidden;
             overflow-y: auto;
             @media(max-width: $sm) {
                 height: auto;
-                overflow: none;
+                overflow: inherit;
+            }
+        }
+
+        .app-col-main {
+            @extend .d-flex;
+            @extend .flex-column;
+            height:100%;
+            overflow: hidden;
+            @media(max-width: $sm) {
+                height: auto;
+                overflow: inherit;
+                padding-top:1rem;
+                padding-bottom:1rem;
+            }
+            .customize-code {
+                @extend .flex-grow-1;
+                overflow-y: auto;
             }
         }
     }

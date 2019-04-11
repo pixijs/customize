@@ -82,13 +82,19 @@ export function createBundleCode(packages:string[]) {
     if (packages.includes('@pixi/app') && appPlugins.length) {
         lines.push('', '// Application plugins');
         lines.push('import { Application } from \'@pixi/app\'');
-        appPlugins.forEach(pkg => lines.push(`Application.registerPlugin(${pkg.appPlugin})`));
+        appPlugins.forEach(pkg => lines.push(
+            `import { ${pkg.appPlugin} } from '${pkg.name}'`,
+            `Application.registerPlugin(${pkg.appPlugin})`
+        ));
     }
 
     if (packages.includes('@pixi/loaders') && loaderPlugins.length) {
         lines.push('', '// Loader plugins');
         lines.push('import { Loader } from \'@pixi/loaders\'');
-        loaderPlugins.forEach(pkg => lines.push(`Loader.registerPlugin(${pkg.loaderPlugin})`));
+        loaderPlugins.forEach(pkg => lines.push(
+            `import { ${pkg.loaderPlugin} } from '${pkg.name}'`,
+            `Loader.registerPlugin(${pkg.loaderPlugin})`
+        ));
     }
 
     if (filters.length) {

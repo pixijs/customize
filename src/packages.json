@@ -28,7 +28,8 @@
             "rendererPlugin": ["extract", "Extract"]
         },
         {
-            "name": "@pixi/graphics"
+            "name": "@pixi/graphics",
+            "dependencies": ["@pixi/sprite"]
         },
         {
             "name": "@pixi/interaction",
@@ -47,11 +48,13 @@
             "name": "@pixi/mesh"
         },
         {
-            "name": "@pixi/mesh-extras"
+            "name": "@pixi/mesh-extras",
+            "dependencies": ["@pixi/mesh"]
         },
         {
             "name": "@pixi/mixin-cache-as-bitmap",
-            "importOnly": true
+            "importOnly": true,
+            "dependencies": ["@pixi/sprite"]
         },
         {
             "name": "@pixi/mixin-get-child-by-name",
@@ -72,7 +75,11 @@
         {
             "name": "@pixi/prepare",
             "namespace": "prepare",
-            "rendererPlugin": ["prepare", "Prepare"]
+            "rendererPlugin": ["prepare", "Prepare"],
+            "dependencies": [
+                "@pixi/graphics",
+                "@pixi/text"
+            ]
         },
         {
             "name": "@pixi/runner",
@@ -86,22 +93,26 @@
             "name": "@pixi/sprite"
         },
         {
-            "name": "@pixi/sprite-animated"
+            "name": "@pixi/sprite-animated",
+            "dependencies": ["@pixi/sprite"]
         },
         {
             "name": "@pixi/sprite-tiling",
-            "rendererPlugin": ["tilingSprite", "TilingSpriteRenderer"]
+            "rendererPlugin": ["tilingSprite", "TilingSpriteRenderer"],
+            "dependencies": ["@pixi/sprite"]
         },
         {
             "name": "@pixi/spritesheet",
             "loaderPlugin": "SpritesheetLoader"
         },
         {
-            "name": "@pixi/text"
+            "name": "@pixi/text",
+            "dependencies": ["@pixi/sprite"]
         },
         {
             "name": "@pixi/text-bitmap",
-            "loaderPlugin": "BitmapFontLoader"
+            "loaderPlugin": "BitmapFontLoader",
+            "dependencies": ["@pixi/sprite"]
         },
         {
             "name": "@pixi/ticker",
@@ -156,19 +167,27 @@
             "code": [
                 "import * as canvasExtract from '${name}'",
                 "Object.assign(${namespace}, canvasExtract)"
-            ]
+            ],
+            "dependencies": ["@pixi/canvas-renderer", "@pixi/extract"]
         },
         {
             "name": "@pixi/canvas-graphics",
-            "canvasPlugin": ["graphics", "CanvasGraphicsRenderer"]
+            "canvasPlugin": ["graphics", "CanvasGraphicsRenderer"],
+            "dependencies": ["@pixi/canvas-renderer"]
         },
         {
             "name": "@pixi/canvas-mesh",
-            "canvasPlugin": ["mesh", "CanvasMeshRenderer"]
+            "canvasPlugin": ["mesh", "CanvasMeshRenderer"],
+            "dependencies": [
+                "@pixi/canvas-renderer",
+                "@pixi/mesh",
+                "@pixi/mesh-extras"
+            ]
         },
         {
             "name": "@pixi/canvas-particles",
-            "importOnly": true
+            "importOnly": true,
+            "dependencies": ["@pixi/particles"]
         },
         {
             "name": "@pixi/canvas-prepare",
@@ -177,6 +196,10 @@
             "code": [
                 "import * as canvasPrepare from '${name}'",
                 "Object.assign(prepare, canvasPrepare)"
+            ],
+            "dependencies": [
+                "@pixi/canvas-renderer",
+                "@pixi/prepare"
             ]
         },
         {
@@ -184,11 +207,20 @@
         },
         {
             "name": "@pixi/canvas-sprite",
-            "canvasPlugin": ["prepare", "CanvasSpriteRenderer"]
+            "canvasPlugin": ["prepare", "CanvasSpriteRenderer"],
+            "dependencies": [
+                "@pixi/canvas-renderer",
+                "@pixi/sprite"
+            ]
         },
         {
             "name": "@pixi/canvas-sprite-tiling",
-            "importOnly": true
+            "importOnly": true,
+            "dependencies": [
+                "@pixi/canvas-renderer",
+                "@pixi/sprite-tiling",
+                "@pixi/sprite"
+            ]
         }
     ],
     "order": [

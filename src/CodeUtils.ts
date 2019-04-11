@@ -118,7 +118,22 @@ export function createBundleCode(packages:string[]) {
 /**
  * Generate the HTML code
  */
-export function createHTMLCode(packages:string[]) {
+export function createHTMLCode(selectedPackages:string[]) {
+    const packages:string[] = [];
+
+    // Create a list of packages that includes the selection
+    // plus any dependencies, in bundler code we don't care
+    // about this, but here
+    selectedPackages.forEach(name => {
+        packages.push(name);
+        const {dependencies} = packagesMap[name];
+        if (dependencies) {
+            dependencies
+                .filter(n => !packages.includes(n))
+                .forEach(n => packages.push(n));
+        }
+    });
+
     const lines = packagesData.order
         .filter(name => packages.includes(name))
         .map(name => {

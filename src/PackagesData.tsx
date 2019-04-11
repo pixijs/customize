@@ -3,6 +3,7 @@ import untypedPackagesData from './packages.json';
 export interface Package {
     name:string;
     code?:string[];
+    dependencies?:string[];
     required?:boolean;
     rendererPlugin?:[string, string];
     canvasPlugin?:[string, string];

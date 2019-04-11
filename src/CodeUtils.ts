@@ -8,7 +8,9 @@ function getCode({ name, namespace, code, importOnly }:Package) {
         return [`import '${name}'`];
     }
     else if (code) {
-        return code.map(line => line.replace('${name}', name));
+        return code.map(line => line
+            .replace('${name}', name)
+            .replace('${namespace}', namespace));
     }
     return namespace ? [
             `import * as ${namespace} from '${name}'`,

@@ -151,8 +151,12 @@
         },
         {
             "name": "@pixi/canvas-extract",
-            "namespace": "canvasExtract",
-            "canvasPlugin": ["extract", "CanvasExtract"]
+            "namespace": "extract",
+            "canvasPlugin": ["extract", "CanvasExtract"],
+            "code": [
+                "import * as canvasExtract from '${name}'",
+                "Object.assign(${namespace}, canvasExtract)"
+            ]
         },
         {
             "name": "@pixi/canvas-graphics",
@@ -168,8 +172,12 @@
         },
         {
             "name": "@pixi/canvas-prepare",
-            "namespace": "canvasPrepare",
-            "canvasPlugin": ["prepare", "CanvasPrepare"]
+            "namespace": "prepare",
+            "canvasPlugin": ["prepare", "CanvasPrepare"],
+            "code": [
+                "import * as canvasPrepare from '${name}'",
+                "Object.assign(prepare, canvasPrepare)"
+            ]
         },
         {
             "name": "@pixi/canvas-renderer"

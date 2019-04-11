@@ -75,6 +75,10 @@
             "rendererPlugin": ["prepare", "Prepare"]
         },
         {
+            "name": "@pixi/runner",
+            "required": true
+        },
+        {
             "name": "@pixi/settings",
             "required": true
         },
@@ -247,6 +251,7 @@
                 "@pixi/particles",
                 "@pixi/polyfill",
                 "@pixi/prepare",
+                "@pixi/runner",
                 "@pixi/settings",
                 "@pixi/sprite",
                 "@pixi/sprite-animated",

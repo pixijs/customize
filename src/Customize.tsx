@@ -9,10 +9,14 @@ import { packagesData, packagesMap, defaultPackages, Package, PackageGroup } fro
 interface State {
     packages:string[];
     useYarn:boolean;
-    useBrowser:boolean;
+    useBundler:boolean;
     bundleCode?:string;
     htmlCode?:string;
 }
+
+const PACKAGES = 'selectedPackages';
+const BUNDLER = 'useBundler';
+const YARN = 'useYarn';
 
 /**
  * Main application
@@ -23,12 +27,12 @@ export class Customize extends Component<any, State> {
 
         const state:State = {
             packages: defaultPackages,
-            useYarn: !!localStorage.getItem('useYarn'),
-            useBrowser: !!localStorage.getItem('useBrowser')
+            useYarn: !!localStorage.getItem(YARN),
+            useBundler: !!localStorage.getItem(BUNDLER)
         };
 
         // Check for saved packages
-        const savedPackages = localStorage.getItem('packages');
+        const savedPackages = localStorage.getItem(PACKAGES);
         if (savedPackages) {
             state.packages = JSON.parse(savedPackages);
         }
@@ -75,7 +79,7 @@ export class Customize extends Component<any, State> {
      * Regenerate the bundle source code
      */
     private refreshPackages(packages:string[]) {
-        localStorage.setItem('packages', JSON.stringify(packages));
+        localStorage.setItem(PACKAGES, JSON.stringify(packages));
         this.setState({
             packages,
             bundleCode: createBundleCode(packages),
@@ -88,10 +92,10 @@ export class Customize extends Component<any, State> {
      */
     private onYarn(useYarn:boolean) {
         if (useYarn) {
-            localStorage.setItem('useYarn', '1');
+            localStorage.setItem(YARN, '1');
         }
         else {
-            localStorage.removeItem('useYarn');
+            localStorage.removeItem(YARN);
         }
         this.setState({ useYarn });
     }
@@ -99,14 +103,14 @@ export class Customize extends Component<any, State> {
     /**
      * Handle browser type
      */
-    private onBrowser(useBrowser:boolean) {
-        if (useBrowser) {
-            localStorage.setItem('useBrowser', '1');
+    private onBundler(useBundler:boolean) {
+        if (useBundler) {
+            localStorage.setItem(BUNDLER, '1');
         }
         else {
-            localStorage.removeItem('useBrowser');
+            localStorage.removeItem(BUNDLER);
         }
-        this.setState({ useBrowser });
+        this.setState({ useBundler });
     }
 
     private groupSelected(group:PackageGroup): boolean {
@@ -118,15 +122,28 @@ export class Customize extends Component<any, State> {
         return true;
     }
 
-    render(props:any, { packages, useYarn, useBrowser, bundleCode, htmlCode }:State) {
+    /**
+     * Reset to the default packages
+     */
+    @bind
+    private onReset() {
+        const {packages} = this.state;
+        packages.length = 0;
+        for (const name of defaultPackages) {
+            packages.push(name);
+        }
+        this.refreshPackages(packages);
+    }
+
+    render(props:any, { packages, useYarn, useBundler, bundleCode, htmlCode }:State) {
         return (<div class="app-container">
             <div class="app-header">
                 <header class="mb-2">
                     <div class="btn-group m-2 float-right">
-                        <button class={`btn btn-sm px-3 btn-${useBrowser ? 'primary' : 'outline-secondary'}`}
-                            onClick={this.onBrowser.bind(this, true)}>Browser</button>
-                        <button class={`btn btn-sm px-3 btn-${!useBrowser ? 'primary' : 'outline-secondary'}`}
-                            onClick={this.onBrowser.bind(this, false)}>Bundler</button>
+                        <button class={`btn btn-sm px-3 btn-${!useBundler ? 'primary' : 'outline-secondary'}`}
+                            onClick={this.onBundler.bind(this, false)}>Browser</button>
+                        <button class={`btn btn-sm px-3 btn-${useBundler ? 'primary' : 'outline-secondary'}`}
+                            onClick={this.onBundler.bind(this, true)}>Bundler</button>
                     </div>
                     <h1><img src={logoUrl} class="logo" alt="PixiJS" /> Customize</h1>
                 </header>
@@ -160,8 +177,9 @@ export class Customize extends Component<any, State> {
                             </ul>
                         </div>;
                     }) }
+                    <button onClick={this.onReset} class="mt-4 btn btn-primary btn-block">Reset</button>
                 </div>
-                { !useBrowser && <div class="app-col app-col-main col-sm-4 col-md-6">
+                { useBundler && <div class="app-col app-col-main col-sm-4 col-md-6">
                     <h2>Bundle Code</h2>
                     <p>When using <a href="https://webpack.js.org/">Webpack</a>,
                     <a href="https://rollupjs.org"> Rollup</a> or
@@ -176,7 +194,7 @@ export class Customize extends Component<any, State> {
                         </button>
                     </a>
                 </div> }
-                { !useBrowser && <div class="app-col col-sm-4 col-md-3">
+                { useBundler && <div class="app-col col-sm-4 col-md-3">
                     <h2>Install</h2>
                     <div class="btn-group w-100 mb-2">
                         <button class={`btn btn-sm btn-${!useYarn ? 'primary' : 'outline-secondary'}`} onClick={this.onYarn.bind(this, false)}>npm</button>
@@ -186,7 +204,7 @@ export class Customize extends Component<any, State> {
                         { useYarn ? 'yarn add' : 'npm install'} { packages.join(' ') }
                     </code>
                 </div> }
-                { useBrowser && <div class="app-col app-col-main col-sm-8 col-md-9">
+                { !useBundler && <div class="app-col app-col-main col-sm-8 col-md-9">
                     <h2>Browser Code</h2>
                     <HighLight className="customize-code mb-2" code={htmlCode} language="html" />
                     <a download="pixi.html" href={`data:text/plain,${htmlCode}`}>

@@ -81,11 +81,13 @@ export function createBundleCode(packages:string[]) {
 
     if (packages.includes('@pixi/app') && appPlugins.length) {
         lines.push('', '// Application plugins');
+        lines.push('import { Application } from \'@pixi/app\'');
         appPlugins.forEach(pkg => lines.push(`Application.registerPlugin(${pkg.appPlugin})`));
     }
 
     if (packages.includes('@pixi/loaders') && loaderPlugins.length) {
         lines.push('', '// Loader plugins');
+        lines.push('import { Loader } from \'@pixi/loaders\'');
         loaderPlugins.forEach(pkg => lines.push(`Loader.registerPlugin(${pkg.loaderPlugin})`));
     }
 
@@ -109,10 +111,12 @@ export function createBundleCode(packages:string[]) {
  * Generate the HTML code
  */
 export function createHTMLCode(packages:string[]) {
-    const lines = packages.map(name => {
-        const [ns, n] = name.split('/');
-        return `<script src="https://pixijs.download/dev/packages/${n}.min.js"></script>`;
-    });
+    const lines = packagesData.order
+        .filter(name => packages.includes(name))
+        .map(name => {
+            const [ns, n] = name.split('/');
+            return `<script src="https://pixijs.download/dev/packages/${n}.min.js"></script>`;
+        });
 
     const loaderPlugins = packagesData.packages
         .filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugin);

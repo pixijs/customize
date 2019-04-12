@@ -118,6 +118,7 @@ $header: 66px;
 
 .app-container {
     @extend .position-relative;
+    @extend .mx-auto;
     max-width:1200px;
     height:100%;
     overflow: hidden;

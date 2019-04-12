@@ -15,6 +15,7 @@ html, body {
     @media(max-width: $sm) {
         position: static;
         overflow: auto;
+        -webkit-overflow-scrolling: touch;
     }
 }
 
@@ -121,9 +122,11 @@ header {
             height:100%;
             overflow-x: hidden;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             @media(max-width: $sm) {
                 height: auto;
                 overflow: inherit;
+                -webkit-overflow-scrolling: auto;
             }
         }
 
@@ -141,6 +144,7 @@ header {
             .customize-code {
                 @extend .flex-grow-1;
                 overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
         }
     }

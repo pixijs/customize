@@ -1,5 +1,13 @@
 import {Package, packagesData, packagesMap} from './PackagesData';
 
+export interface HTMLResult {
+    code:string;
+    initCode:string;
+    resources:string[];
+    pluginsHtml:string;
+    plugins:string[];
+}
+
 /**
  * Get header code
  */
@@ -118,7 +126,7 @@ export function createBundleCode(packages:string[]) {
 /**
  * Generate the HTML code
  */
-export function createHTMLCode(selectedPackages:string[]) {
+export function createHTMLCode(selectedPackages:string[]):HTMLResult {
     const packages:string[] = [];
 
     // Create a list of packages that includes the selection
@@ -134,11 +142,19 @@ export function createHTMLCode(selectedPackages:string[]) {
         }
     });
 
-    const lines = packagesData.order
+    const result:HTMLResult = {
+        resources: [],
+        plugins: [],
+        initCode: null,
+        pluginsHtml: null,
+        code: '',
+    };
+
+    result.resources = packagesData.order
         .filter(name => packages.includes(name))
         .map(name => {
             const [ns, n] = name.split('/');
-            return `<script src="https://pixijs.download/dev/packages/${n}.min.js"></script>`;
+            return `https://pixijs.download/dev/packages/${n}.min.js`;
         });
 
     const loaderPlugins = packagesData.packages
@@ -150,24 +166,29 @@ export function createHTMLCode(selectedPackages:string[]) {
     const canvasPlugins = packagesData.packages
         .filter(pkg => packages.includes(pkg.name) && !!pkg.canvasPlugin);
 
-    lines.push('<script>');
-    const TAB = '  ';
+
     packagesData.packages
         .filter(pkg => packages.includes(pkg.name) && !!pkg.rendererPlugin)
-        .forEach(pkg => lines.push(TAB + rendererHTMLPlugin('Renderer', pkg)));
+        .forEach(pkg => result.plugins.push(rendererHTMLPlugin('Renderer', pkg)));
 
     if (packages.includes('@pixi/canvas-renderer') && canvasPlugins.length) {
-        canvasPlugins.forEach(pkg => lines.push(TAB + rendererHTMLPlugin('CanvasRenderer', pkg)));
+        canvasPlugins.forEach(pkg => result.plugins.push(rendererHTMLPlugin('CanvasRenderer', pkg)));
     }
 
     if (packages.includes('@pixi/app') && appPlugins.length) {
-        appPlugins.forEach(pkg => lines.push(TAB + `PIXI.Application.registerPlugin(PIXI.${pkg.appPlugin});`));
+        appPlugins.forEach(pkg => result.plugins.push(`PIXI.Application.registerPlugin(PIXI.${pkg.appPlugin});`));
     }
 
     if (packages.includes('@pixi/loaders') && loaderPlugins.length) {
-        loaderPlugins.forEach(pkg => lines.push(TAB + `PIXI.Loader.registerPlugin(PIXI.${pkg.loaderPlugin});`));
+        loaderPlugins.forEach(pkg => result.plugins.push(`PIXI.Loader.registerPlugin(PIXI.${pkg.loaderPlugin});`));
     }
 
-    lines.push('</script>');
-    return lines.join('\n');
+    result.pluginsHtml = `<script>\n  ${result.plugins.join('\n  ')}\n</script>`;
+    result.code += result.resources.map(url => `<script src="${url}"></script>`).join('\n');
+    result.code += '\n' + result.pluginsHtml;
+    result.initCode = packages.includes('@pixi/app') ?
+        'var app = new PIXI.Application();\ndocument.body.appendChild(app.view);':
+        'var renderer = PIXI.autoDetectRenderer();\ndocument.body.appendChild(renderer.view);';
+
+    return result;
 }

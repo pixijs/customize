@@ -182,8 +182,10 @@ $header: 66px;
         .app-col {
             @extend .section-scroller;
         }
-        .app-col + .app-col {
-            @extend .pt-4;
+        @media(max-width: $sm) {
+            .app-col + .app-col {
+                padding-top: 1rem;
+            }
         }
 
         .app-col-bundler,

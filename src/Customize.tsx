@@ -139,18 +139,18 @@ export class Customize extends Component<any, State> {
     render(props:any, { packages, useYarn, useBundler, bundleCode, htmlCode }:State) {
         return (<div class="app-container">
             <div class="app-header">
-                <header class="mb-2">
-                    <div class="btn-group m-2 float-right">
+                <header class="col">
+                    <h1><img src={logoUrl} class="logo" alt="PixiJS" /> Customize</h1>
+                    <div class="app-tabs">
                         <button class={`btn btn-sm px-3 btn-${!useBundler ? 'primary' : 'outline-secondary'}`}
                             onClick={this.onBundler.bind(this, false)}>Browser</button>
                         <button class={`btn btn-sm px-3 btn-${useBundler ? 'primary' : 'outline-secondary'}`}
                             onClick={this.onBundler.bind(this, true)}>Bundler</button>
                     </div>
-                    <h1><img src={logoUrl} class="logo" alt="PixiJS" /> Customize</h1>
                 </header>
             </div>
-            <div class="app-main row">
-                <div class="app-col col-sm-4 col-md-3">
+            <div class="app-main">
+                <div class="app-col app-col-list">
                     { packagesData.groups.map((group, i) => {
                         return <div class="customize-group">
                             <h2><div class="custom-control custom-checkbox">
@@ -180,7 +180,7 @@ export class Customize extends Component<any, State> {
                     }) }
                     <button onClick={this.onReset} class="mt-4 btn btn-primary btn-block">Reset</button>
                 </div>
-                { useBundler && <div class="app-col app-col-main col-sm-4 col-md-6">
+                { useBundler && <div class="app-col app-col-bundler">
                     <h2>Bundle Code</h2>
                     <p>When using <a href="https://webpack.js.org/">Webpack</a>,
                     <a href="https://rollupjs.org"> Rollup</a> or
@@ -195,23 +195,23 @@ export class Customize extends Component<any, State> {
                         </button>
                     </a>
                 </div> }
-                { useBundler && <div class="app-col col-sm-4 col-md-3">
+                { useBundler && <div class="app-col app-col-aside">
                     <h2>Install</h2>
                     <div class="btn-group w-100 mb-2">
                         <button class={`btn btn-sm btn-${!useYarn ? 'primary' : 'outline-secondary'}`} onClick={this.onYarn.bind(this, false)}>npm</button>
                         <button class={`btn btn-sm btn-${useYarn ? 'primary' : 'outline-secondary'}`} onClick={this.onYarn.bind(this, true)}>yarn</button>
                     </div>
-                    <code class="customize-code mb-4 small">
+                    <code class="customize-code small">
                         { useYarn ? 'yarn add' : 'npm install'} { packages.join(' ') }
                     </code>
                 </div> }
-                { !useBundler && <div class="app-col app-col-main col-sm-8 col-md-9">
+                { !useBundler && <div class="app-col app-col-browser">
                     <h2>Browser Code</h2>
                     <HighLight className="customize-code mb-2" code={htmlCode} language="html" />
-                    <div class="d-flex">
+                    <div class="d-flex flex-shrink-0">
                         <a class="w-100" download="pixi.html" href={`data:text/plain,${htmlCode}`}>
                             <button class="btn btn-primary btn-block float-right">
-                                <img src={downloadUrl} class="mr-2" width="20" height="20" />
+                                <img src={downloadUrl} class="icon" width="20" height="20" />
                                 Download
                             </button>
                         </a>
@@ -220,7 +220,7 @@ export class Customize extends Component<any, State> {
                             <input type="hidden" name="html" value={htmlCode} />
                             <input type="hidden" name="title" value="PixiJS Customize" />
                             <button class="btn btn-primary btn-block float-right">
-                                <img src={externalLinkUrl} class="mr-2" width="20" height="20" />
+                                <img src={externalLinkUrl} class="icon" />
                                 JSFiddle
                             </button>
                         </form>
@@ -228,7 +228,7 @@ export class Customize extends Component<any, State> {
                         <form class="w-100" method="post" action="https://codepen.io/pen/define" target="_blank">
                             <input type="hidden" name="data" value={JSON.stringify({title: 'PixiJS Customize', html: htmlCode})} />
                             <button class="btn btn-primary btn-block float-right">
-                                <img src={externalLinkUrl} class="mr-2" width="20" height="20" />
+                                <img src={externalLinkUrl} class="icon" />
                                 CodePen
                             </button>
                         </form>

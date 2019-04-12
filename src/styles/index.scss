@@ -3,13 +3,16 @@
 @import './scrollbar';
 
 $sm: map-get($grid-breakpoints, "sm");
+$md: map-get($grid-breakpoints, "md");
 
 html, body {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     cursor:default;
     overflow: hidden;
-    position: absolute;
+    position: fixed;
+    top:0;
+    left:0;
     @extend .w-100;
     @extend .h-100;
     @media(max-width: $sm) {
@@ -27,13 +30,6 @@ h1, h2, h3, h4, h5 {
 
 h2 {
     font-size: 140%;
-}
-
-header {
-    .logo {
-        width:85px;
-        vertical-align: baseline;
-    }
 }
 
 ::selection {
@@ -105,48 +101,133 @@ header {
     }
 }
 
+.section-scroller {
+    scrollbar-color: #647086 transparent;
+    -moz-appearance: none !important;
+    @extend .h-100;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    @media(max-width: $sm) {
+        height: auto;
+        overflow: inherit;
+        -webkit-overflow-scrolling: auto;
+    }
+}
+
+$header: 66px;
+
 .app-container {
-    @extend .container-fluid;
-    @extend .d-flex;
-    @extend .flex-column;
+    @extend .position-relative;
     max-width:1200px;
     height:100%;
+    overflow: hidden;
+    @media(max-width: $sm) {
+        overflow: auto;
+        height: auto;
+    }
     .app-header {
         @extend .pt-2;
-        @extend .flex-shrink-0;
-        @extend .flex-grow-0;
-    }
-    .app-main {
-        @extend .pb-4;
-        .app-col {
-            height:100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            @media(max-width: $sm) {
-                height: auto;
-                overflow: inherit;
-                -webkit-overflow-scrolling: auto;
+        @extend .w-100;
+        position: absolute;
+        height: $header;
+        .logo {
+            width:85px;
+            vertical-align: baseline;
+        }
+        @media(max-width: $sm) {
+            position: static;
+            height: auto;
+            h1 {
+                font-size: 200%;
+                text-align: center;
+                padding: 1rem 0;
+            }
+            .logo {
+                width: 75px;
             }
         }
+        .app-tabs {
+            top:0;
+            right:0;
+            position: absolute;
+            @extend .btn-group;
+            @extend .my-2;
+            @extend .mr-3;
+            @media(max-width: $sm) {
+                position: static;
+                width: 100%;
+                margin-right: 0 !important;
+                margin-bottom: 1rem !important;
+                margin-top: 0 !important;
+                .btn {
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                }
+            }
+        }
+    }
+    .app-main {
+        display: flex;
+        position: absolute;
+        top: $header;
+        bottom: 1rem;
+        @extend .w-100;
+        @media(max-width: $sm) {
+            position: static;
+            height: auto;
+            display: block;
+            padding-bottom:1rem;
+        }
+        .app-col {
+            @extend .section-scroller;
+        }
+        .app-col + .app-col {
+            @extend .pt-4;
+        }
 
-        .app-col-main {
+        .app-col-bundler,
+        .app-col-browser {
             @extend .d-flex;
             @extend .flex-column;
-            height:100%;
+            @extend .h-100;
             overflow: hidden;
             @media(max-width: $sm) {
                 height: auto;
                 overflow: inherit;
-                padding-top:1rem;
-                padding-bottom:1rem;
+                padding: 1rem 1rem 0;
             }
             .customize-code {
                 @extend .flex-grow-1;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                @extend .section-scroller;
             }
+        }
+        .app-col-list {
+            @extend .col-sm-4;
+            @extend .col-md-3;
+        }
+        .app-col-bundler {
+            @extend .col-sm-4;
+            @extend .col-md-6;
+        }
+        .app-col-aside {
+            @extend .col-sm-4;
+            @extend .col-md-3;
+        }
+        .app-col-browser {
+            @extend .col-sm-8;
+            @extend .col-md-9;
         }
     }
 }
 
+.btn .icon {
+    @extend .mr-md-2;
+    width: 20px;
+    height: 20px;
+    @media(max-width: $md) {
+        width: 16px;
+        height: 16px;
+        display:block;
+        margin:0 auto 0.25rem;
+    }
+}

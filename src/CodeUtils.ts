@@ -126,7 +126,7 @@ export function createBundleCode(packages:string[]) {
 /**
  * Generate the HTML code
  */
-export function createHTMLCode(selectedPackages:string[], unminifed:boolean):HTMLResult {
+export function createHTMLCode(selectedPackages:string[], unminifed:boolean, version:string):HTMLResult {
     const packages:string[] = [];
 
     // Create a list of packages that includes the selection
@@ -154,7 +154,7 @@ export function createHTMLCode(selectedPackages:string[], unminifed:boolean):HTM
         .filter(name => packages.includes(name))
         .map(name => {
             const [ns, n] = name.split('/');
-            return `https://pixijs.download/dev/packages/${n}${unminifed ? '' : '.min'}.js`;
+            return `https://pixijs.download/${version}/packages/${n}${unminifed ? '' : '.min'}.js`;
         });
 
     const loaderPlugins = packagesData.packages

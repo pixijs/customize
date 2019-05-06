@@ -263,6 +263,7 @@ export class Customize extends Component<any, State> {
                                 <option value="release" selected={version === 'release'}>Latest Release</option>
                                 <option value="dev" selected={version === 'dev'}>Current Development</option>
                                 <option value="v5.0.0" selected={version === 'v5.0.0'}>v5.0.0</option>
+                                <option value="v5.0.1" selected={version === 'v5.0.1'}>v5.0.1</option>
                             </select>
                         </div>
                         Browser Code

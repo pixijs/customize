@@ -221,6 +221,14 @@
                 "@pixi/sprite-tiling",
                 "@pixi/sprite"
             ]
+        },
+        {
+            "name": "@pixi/canvas-text",
+            "importOnly": true,
+            "dependencies": [
+                "@pixi/text",
+                "@pixi/sprite"
+            ]
         }
     ],
     "order": [
@@ -265,6 +273,7 @@
         "@pixi/canvas-graphics",
         "@pixi/canvas-mesh",
         "@pixi/canvas-sprite-tiling",
+        "@pixi/canvas-text",
         "@pixi/interaction",
         "@pixi/prepare",
         "@pixi/canvas-prepare"
@@ -326,7 +335,8 @@
                 "@pixi/canvas-prepare",
                 "@pixi/canvas-renderer",
                 "@pixi/canvas-sprite",
-                "@pixi/canvas-sprite-tiling"
+                "@pixi/canvas-sprite-tiling",
+                "@pixi/canvas-text"
             ]
         }
     ]

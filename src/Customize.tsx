@@ -230,6 +230,10 @@ export class Customize extends Component<any, State> {
                     <a href="https://parceljs.org/"> Parcel</a> you can embed
                     the follow code in your project and then
                     simply <code>import * as PIXI from './pixi.js'</code>.</p>
+                    <p className="note">Since unused Renderer, Application and Loader plugins prevent
+                    proper tree-shaking using bundlers, it can be useful to bundle
+                    your own version of PixiJS with only the parts your project needs
+                    producing the smallest possible filesize.</p>
                     <HighLight className="customize-code mb-2" code={bundleCode} language="javascript" />
                     <a download="pixi.js" href={`data:text/plain,${bundleCode}`}>
                         <button class="btn btn-primary btn-block float-right">

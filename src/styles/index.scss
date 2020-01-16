@@ -234,3 +234,8 @@ $header: 66px;
         margin:0 auto 0.25rem;
     }
 }
+
+.note {
+    @extend .small;
+    line-height:1.5;
+}

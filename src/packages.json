@@ -24,7 +24,6 @@
         },
         {
             "name": "@pixi/extract",
-            "namespace": "extract",
             "rendererPlugin": ["extract", "Extract"]
         },
         {
@@ -74,7 +73,6 @@
         },
         {
             "name": "@pixi/prepare",
-            "namespace": "prepare",
             "rendererPlugin": ["prepare", "Prepare"],
             "dependencies": [
                 "@pixi/graphics",
@@ -162,12 +160,7 @@
         },
         {
             "name": "@pixi/canvas-extract",
-            "namespace": "extract",
             "canvasPlugin": ["extract", "CanvasExtract"],
-            "code": [
-                "import * as canvasExtract from '${name}'",
-                "Object.assign(${namespace}, canvasExtract)"
-            ],
             "dependencies": ["@pixi/canvas-renderer", "@pixi/extract"]
         },
         {
@@ -191,12 +184,7 @@
         },
         {
             "name": "@pixi/canvas-prepare",
-            "namespace": "prepare",
             "canvasPlugin": ["prepare", "CanvasPrepare"],
-            "code": [
-                "import * as canvasPrepare from '${name}'",
-                "Object.assign(prepare, canvasPrepare)"
-            ],
             "dependencies": [
                 "@pixi/canvas-renderer",
                 "@pixi/prepare"

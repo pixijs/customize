@@ -16,7 +16,8 @@
     "prebuild": "run-s clean lint types",
     "build": "npm run build:prod",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "sizes": "node scripts/sizes > src/sizes.json"
   },
   "repository": {
     "type": "git",

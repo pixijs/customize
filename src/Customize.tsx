@@ -15,6 +15,8 @@ interface State {
     htmlResult?:HTMLResult;
     unminified:boolean;
     version:string;
+    size:number;
+    totalSize:number;
 }
 
 const PACKAGES = 'selectedPackages';
@@ -35,6 +37,8 @@ export class Customize extends Component<any, State> {
 
         const state:State = {
             packages: defaultPackages,
+            size: 0,
+            totalSize: 0,
             useYarn: !!localStorage.getItem(YARN),
             useBundler: !!localStorage.getItem(BUNDLER),
             unminified: !!localStorage.getItem(UNMINIFIED),
@@ -46,6 +50,10 @@ export class Customize extends Component<any, State> {
         if (savedPackages) {
             state.packages = JSON.parse(savedPackages);
         }
+        for (const name in packagesMap) {
+            state.totalSize += packagesMap[name].size;
+        }
+        state.size = this.getSize(state.packages);
         state.bundleCode = createBundleCode(state.packages);
         state.htmlResult = createHTMLCode(state.packages, state.unminified, state.version);
         this.state = state;
@@ -126,9 +134,17 @@ export class Customize extends Component<any, State> {
         localStorage.setItem(PACKAGES, JSON.stringify(packages));
         this.setState({
             packages,
+            size: this.getSize(packages),
             bundleCode: createBundleCode(packages),
             htmlResult: createHTMLCode(packages, this.state.unminified, this.state.version)
         });
+    }
+
+    /**
+     * Get the totally file size used
+     */
+    private getSize(packages:string[]): number {
+        return packages.map(name => packagesMap[name].size).reduce((prev, curr) => prev + curr);
     }
 
     /**
@@ -179,7 +195,8 @@ export class Customize extends Component<any, State> {
         this.refreshPackages(packages);
     }
 
-    render(props:any, { packages, useYarn, useBundler, bundleCode, htmlResult, version, unminified }:State) {
+    render(props:any, { packages, useYarn, useBundler, bundleCode, htmlResult, version, unminified, size, totalSize }:State) {
+        const percent = (size/totalSize*100);
         return (<div class="app-container">
             <div class="app-header">
                 <header class="col">
@@ -194,6 +211,17 @@ export class Customize extends Component<any, State> {
             </div>
             <div class="app-main">
                 <div class="app-col app-col-list">
+                    <div class="app-size">
+                        <div class="d-flex">
+                            <div class="flex-grow-1"><span class="d-sm-none d-md-none d-lg-inline">Estimated </span>Filesize:</div>
+                            <div class="flex-shrink-0 text-white">{Math.round(size / 1024)} KB</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" style={{width: percent+'%'}}>
+                                {Math.round(percent)}%
+                            </div>
+                        </div>
+                    </div>
                     { packagesData.groups.map((group, i) => {
                         return <div class="customize-group">
                             <h2><div class="custom-control custom-checkbox">

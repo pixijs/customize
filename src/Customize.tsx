@@ -212,8 +212,10 @@ export class Customize extends Component<any, State> {
             <div class="app-main">
                 <div class="app-col app-col-list">
                     <div class="app-size">
-                        Estimated Filesize:
-                        <span class="text-white float-right">{Math.round(size / 1024)} KB</span>
+                        <div class="d-flex">
+                            <div class="flex-grow-1"><span class="d-sm-none d-md-none d-lg-inline">Estimated </span>Filesize:</div>
+                            <div class="flex-shrink-0 text-white">{Math.round(size / 1024)} KB</div>
+                        </div>
                         <div class="progress">
                             <div class="progress-bar" style={{width: percent+'%'}}>
                                 {Math.round(percent)}%

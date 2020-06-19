@@ -6,7 +6,8 @@
             "canvasPlugin": ["accessibility", "AccessibilityManager"]
         },
         {
-            "name": "@pixi/app"
+            "name": "@pixi/app",
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/constants",
@@ -18,8 +19,7 @@
             "rendererPlugin": ["batch", "BatchRenderer"]
         },
         {
-            "name": "@pixi/display",
-            "required": true
+            "name": "@pixi/display"
         },
         {
             "name": "@pixi/extract",
@@ -27,7 +27,10 @@
         },
         {
             "name": "@pixi/graphics",
-            "dependencies": ["@pixi/sprite"]
+            "dependencies": [
+              "@pixi/sprite",
+              "@pixi/display"
+            ]
         },
         {
             "name": "@pixi/graphics-extras",
@@ -36,7 +39,8 @@
         },
         {
             "name": "@pixi/interaction",
-            "rendererPlugin": ["interaction", "InteractionManager"]
+            "rendererPlugin": ["interaction", "InteractionManager"],
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/loaders",
@@ -47,7 +51,8 @@
             "required": true
         },
         {
-            "name": "@pixi/mesh"
+            "name": "@pixi/mesh",
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/mesh-extras",
@@ -56,19 +61,25 @@
         {
             "name": "@pixi/mixin-cache-as-bitmap",
             "importOnly": true,
-            "dependencies": ["@pixi/sprite"]
+            "dependencies": [
+              "@pixi/sprite",
+              "@pixi/display"
+            ]
         },
         {
             "name": "@pixi/mixin-get-child-by-name",
-            "importOnly": true
+            "importOnly": true,
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/mixin-get-global-position",
-            "importOnly": true
+            "importOnly": true,
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/particles",
-            "rendererPlugin": ["particle", "ParticleRenderer"]
+            "rendererPlugin": ["particle", "ParticleRenderer"],
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/polyfill",
@@ -79,7 +90,8 @@
             "rendererPlugin": ["prepare", "Prepare"],
             "dependencies": [
                 "@pixi/graphics",
-                "@pixi/text"
+                "@pixi/text",
+                "@pixi/display"
             ]
         },
         {
@@ -91,7 +103,8 @@
             "required": true
         },
         {
-            "name": "@pixi/sprite"
+            "name": "@pixi/sprite",
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/sprite-animated",
@@ -100,7 +113,7 @@
         {
             "name": "@pixi/sprite-tiling",
             "rendererPlugin": ["tilingSprite", "TilingSpriteRenderer"],
-            "dependencies": ["@pixi/sprite"]
+            "dependencies": ["@pixi/sprite", "@pixi/display"]
         },
         {
             "name": "@pixi/spritesheet",
@@ -113,7 +126,11 @@
         {
             "name": "@pixi/text-bitmap",
             "loaderPlugin": "BitmapFontLoader",
-            "dependencies": ["@pixi/sprite"]
+            "dependencies": [
+              "@pixi/display",
+              "@pixi/text",
+              "@pixi/mesh"
+            ]
         },
         {
             "name": "@pixi/ticker",
@@ -159,12 +176,17 @@
         },
         {
             "name": "@pixi/canvas-display",
-            "importOnly": true
+            "importOnly": true,
+            "dependencies": ["@pixi/display"]
         },
         {
             "name": "@pixi/canvas-extract",
             "canvasPlugin": ["extract", "CanvasExtract"],
-            "dependencies": ["@pixi/canvas-renderer", "@pixi/extract"]
+            "dependencies": [
+              "@pixi/canvas-renderer",
+              "@pixi/extract",
+              "@pixi/display"
+            ]
         },
         {
             "name": "@pixi/canvas-graphics",
@@ -241,8 +263,8 @@
         "@pixi/mesh",
         "@pixi/particles",
         "@pixi/sprite",
-        "@pixi/canvas-extract",
         "@pixi/canvas-renderer",
+        "@pixi/canvas-extract",
         "@pixi/filter-alpha",
         "@pixi/filter-blur",
         "@pixi/filter-color-matrix",

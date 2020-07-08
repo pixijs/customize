@@ -38,6 +38,12 @@ function rendererPlugin(rendererName:string, {name, rendererPlugin, canvasPlugin
             `${rendererName}.registerPlugin('${apiName}', ${namespace}.${className})`
         ];
     }
+    // avoid duplicate class imports for CanvasRenderer plugins
+    else if (rendererName === 'CanvasRenderer' && rendererPlugin && rendererPlugin[1] === className) {
+        return [
+            `${rendererName}.registerPlugin('${apiName}', ${className})`
+        ];
+    }
     else {
         return [
             `import { ${className} } from '${name}'`,

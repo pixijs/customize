@@ -220,7 +220,7 @@
         },
         {
             "name": "@pixi/canvas-sprite",
-            "canvasPlugin": ["prepare", "CanvasSpriteRenderer"],
+            "canvasPlugin": ["sprite", "CanvasSpriteRenderer"],
             "dependencies": [
                 "@pixi/canvas-renderer",
                 "@pixi/sprite"

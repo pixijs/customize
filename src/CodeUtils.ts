@@ -113,7 +113,7 @@ export function createBundleCode(packages:string[]) {
         filters.forEach(pkg => {
             const imports = pkg.filter.join(', ');
             filterNames.push(imports);
-            lines.push(`import { ${imports} } from '${pkg.name}' }`);
+            lines.push(`import { ${imports} } from '${pkg.name}'`);
         });
         lines.push(`export const filters = {\n  ${filterNames.join(',\n  ')}\n}`);
     }

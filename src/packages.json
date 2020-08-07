@@ -192,7 +192,10 @@
         {
             "name": "@pixi/canvas-graphics",
             "canvasPlugin": ["graphics", "CanvasGraphicsRenderer"],
-            "dependencies": ["@pixi/canvas-renderer"]
+            "dependencies": [
+              "@pixi/canvas-renderer",
+              "@pixi/canvas-display"
+            ]
         },
         {
             "name": "@pixi/canvas-mesh",

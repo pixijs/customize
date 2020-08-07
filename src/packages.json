@@ -202,6 +202,7 @@
             "canvasPlugin": ["mesh", "CanvasMeshRenderer"],
             "dependencies": [
                 "@pixi/canvas-renderer",
+                "@pixi/canvas-display",
                 "@pixi/mesh",
                 "@pixi/mesh-extras"
             ]
@@ -227,6 +228,7 @@
             "canvasPlugin": ["sprite", "CanvasSpriteRenderer"],
             "dependencies": [
                 "@pixi/canvas-renderer",
+                "@pixi/canvas-display",
                 "@pixi/sprite"
             ]
         },
@@ -243,6 +245,7 @@
             "name": "@pixi/canvas-text",
             "importOnly": true,
             "dependencies": [
+                "@pixi/canvas-sprite",
                 "@pixi/text",
                 "@pixi/sprite"
             ]

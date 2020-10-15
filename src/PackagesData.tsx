@@ -9,7 +9,7 @@ export interface Package {
     rendererPlugin?:[string, string];
     canvasPlugin?:[string, string];
     appPlugin?:string;
-    loaderPlugin?:string;
+    loaderPlugins?:string[];
     namespace?:string;
     filter?:string[];
     importOnly?:boolean;

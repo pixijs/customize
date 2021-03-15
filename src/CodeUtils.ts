@@ -69,7 +69,7 @@ export function createBundleCode(packages:string[]) {
     const lines:string[] = [];
 
     const loaderPlugins = packagesData.packages
-        .filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugin);
+        .filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugins);
     const appPlugins = packagesData.packages
         .filter(pkg => packages.includes(pkg.name) && !!pkg.appPlugin);
     const filters = packagesData.packages
@@ -108,8 +108,8 @@ export function createBundleCode(packages:string[]) {
         lines.push('', '// Loader plugins');
         lines.push('import { Loader } from \'@pixi/loaders\'');
         loaderPlugins.forEach(pkg => lines.push(
-            `import { ${pkg.loaderPlugin} } from '${pkg.name}'`,
-            `Loader.registerPlugin(${pkg.loaderPlugin})`
+            `import { ${pkg.loaderPlugins.join(', ')} } from '${pkg.name}'`,
+            ...pkg.loaderPlugins.map(n => `Loader.registerPlugin(${n})`)
         ));
     }
 
@@ -164,7 +164,7 @@ export function createHTMLCode(selectedPackages:string[], unminifed:boolean, ver
         });
 
     const loaderPlugins = packagesData.packages
-        .filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugin);
+        .filter(pkg => packages.includes(pkg.name) && !!pkg.loaderPlugins);
     const appPlugins = packagesData.packages
         .filter(pkg => packages.includes(pkg.name) && !!pkg.appPlugin);
     const filters = packagesData.packages
@@ -186,7 +186,7 @@ export function createHTMLCode(selectedPackages:string[], unminifed:boolean, ver
     }
 
     if (packages.includes('@pixi/loaders') && loaderPlugins.length) {
-        loaderPlugins.forEach(pkg => result.plugins.push(`PIXI.Loader.registerPlugin(PIXI.${pkg.loaderPlugin});`));
+        loaderPlugins.forEach(pkg => result.plugins.push(...pkg.loaderPlugins.map(n => `PIXI.Loader.registerPlugin(PIXI.${n});`)));
     }
 
     result.pluginsHtml = `<script>\n  ${result.plugins.join('\n  ')}\n</script>`;

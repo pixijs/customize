@@ -10,6 +10,19 @@
             "dependencies": ["@pixi/display"]
         },
         {
+            "name": "@pixi/basis",
+            "dependencies": ["@pixi/compressed-textures"],
+            "loaderPlugins": ["BasisLoader"]
+        },
+        {
+            "name": "@pixi/compressed-textures",
+            "loaderPlugins": [
+                "CompressedTextureLoader",
+                "DDSLoader",
+                "KTXLoader"
+            ]
+        },
+        {
             "name": "@pixi/constants",
             "required": true
         },
@@ -118,7 +131,7 @@
         },
         {
             "name": "@pixi/spritesheet",
-            "loaderPlugin": "SpritesheetLoader"
+            "loaderPlugins": ["SpritesheetLoader"]
         },
         {
             "name": "@pixi/text",
@@ -126,7 +139,7 @@
         },
         {
             "name": "@pixi/text-bitmap",
-            "loaderPlugin": "BitmapFontLoader",
+            "loaderPlugins": ["BitmapFontLoader"],
             "dependencies": [
               "@pixi/display",
               "@pixi/text",
@@ -267,6 +280,8 @@
         "@pixi/canvas-display",
         "@pixi/extract",
         "@pixi/loaders",
+        "@pixi/compressed-textures",
+        "@pixi/basis",
         "@pixi/mesh",
         "@pixi/particles",
         "@pixi/sprite",
@@ -305,6 +320,8 @@
             "packages": [
                 "@pixi/accessibility",
                 "@pixi/app",
+                "@pixi/basis",
+                "@pixi/compressed-textures",
                 "@pixi/constants",
                 "@pixi/core",
                 "@pixi/display",

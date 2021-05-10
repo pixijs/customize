@@ -1,6 +1,6 @@
 {
   "name": "customize",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "private": true,
   "description": "Customize the list of packages to use for PixiJS, generates a list of dependencies and a JavaScript source file to include in your project.",
   "main": "index.js",

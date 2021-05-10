@@ -17,6 +17,7 @@
     "build": "npm run build:prod",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "postversion": "npm run deploy && git push && git push --tags",
     "sizes": "node scripts/sizes > src/sizes.json"
   },
   "repository": {

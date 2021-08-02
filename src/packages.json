@@ -39,6 +39,10 @@
             "rendererPlugin": ["extract", "Extract"]
         },
         {
+            "name": "@pixi/events",
+            "dependencies": ["@pixi/display"]
+        },
+        {
             "name": "@pixi/graphics",
             "dependencies": [
               "@pixi/sprite",
@@ -63,6 +67,10 @@
         {
             "name": "@pixi/math",
             "required": true
+        },
+        {
+            "name": "@pixi/math-extras",
+            "importOnly": true
         },
         {
             "name": "@pixi/mesh",
@@ -91,7 +99,7 @@
             "dependencies": ["@pixi/display"]
         },
         {
-            "name": "@pixi/particles",
+            "name": "@pixi/particle-container",
             "rendererPlugin": ["particle", "ParticleRenderer"],
             "dependencies": ["@pixi/display"]
         },
@@ -221,9 +229,9 @@
             ]
         },
         {
-            "name": "@pixi/canvas-particles",
+            "name": "@pixi/canvas-particle-container",
             "importOnly": true,
-            "dependencies": ["@pixi/particles"]
+            "dependencies": ["@pixi/particle-container"]
         },
         {
             "name": "@pixi/canvas-prepare",
@@ -268,12 +276,14 @@
         "@pixi/polyfill",
         "@pixi/constants",
         "@pixi/math",
+        "@pixi/math-extras",
         "@pixi/runner",
         "@pixi/settings",
         "@pixi/ticker",
         "@pixi/utils",
         "@pixi/display",
         "@pixi/core",
+        "@pixi/events",
         "@pixi/unsafe-eval",
         "@pixi/mixin-get-child-by-name",
         "@pixi/mixin-get-global-position",
@@ -283,7 +293,7 @@
         "@pixi/compressed-textures",
         "@pixi/basis",
         "@pixi/mesh",
-        "@pixi/particles",
+        "@pixi/particle-container",
         "@pixi/sprite",
         "@pixi/canvas-renderer",
         "@pixi/canvas-extract",
@@ -302,7 +312,7 @@
         "@pixi/sprite-animated",
         "@pixi/sprite-tiling",
         "@pixi/spritesheet",
-        "@pixi/canvas-particles",
+        "@pixi/canvas-particle-container",
         "@pixi/canvas-sprite",
         "@pixi/text-bitmap",
         "@pixi/text",
@@ -325,18 +335,20 @@
                 "@pixi/constants",
                 "@pixi/core",
                 "@pixi/display",
+                "@pixi/events",
                 "@pixi/extract",
                 "@pixi/graphics",
                 "@pixi/graphics-extras",
                 "@pixi/interaction",
                 "@pixi/loaders",
                 "@pixi/math",
+                "@pixi/math-extras",
                 "@pixi/mesh",
                 "@pixi/mesh-extras",
                 "@pixi/mixin-cache-as-bitmap",
                 "@pixi/mixin-get-child-by-name",
                 "@pixi/mixin-get-global-position",
-                "@pixi/particles",
+                "@pixi/particle-container",
                 "@pixi/polyfill",
                 "@pixi/prepare",
                 "@pixi/runner",
@@ -370,7 +382,7 @@
                 "@pixi/canvas-extract",
                 "@pixi/canvas-graphics",
                 "@pixi/canvas-mesh",
-                "@pixi/canvas-particles",
+                "@pixi/canvas-particle-container",
                 "@pixi/canvas-prepare",
                 "@pixi/canvas-renderer",
                 "@pixi/canvas-sprite",
